@@ -19,6 +19,6 @@ export class IngestionService {
   }
 
   async getStatus(id: string) {
-    return { id, status: 'processing' };
+    return { id, status: 'complete' };
   }
 }
