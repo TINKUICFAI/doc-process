@@ -1,98 +1,108 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+# 📄 Document Processing Backend (NestJS + PostgreSQL)
 
-## Description
+This project is a **NestJS-based backend service** for user authentication, document management, and ingestion workflow management.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Project setup
+## 🚀 Features
 
-```bash
-$ npm install
-```
+* ✅ **JWT Authentication** (Register/Login)
+* ✅ **Role-Based Access Control** (Admin, Editor, Viewer)
+* ✅ **User Management** (Admin-only role updates & soft-delete)
+* ✅ **Document Management** (CRUD + Ownership)
+* ✅ **Ingestion Trigger API** (Integration with Python service)
+* ✅ **PostgreSQL + TypeORM** for persistence
+* ✅ **Scalable, Microservice-Ready Architecture**
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ npm run start
+## 📌 API Flow
 
-# watch mode
-$ npm run start:dev
+### 🔐 Authentication APIs
 
-# production mode
-$ npm run start:prod
-```
+* `POST /auth/register` → Register user with email/password
+* `POST /auth/login` → Login and receive JWT token
 
-## Run tests
+### 👤 User Management
 
-```bash
-# unit tests
-$ npm run test
+* `GET /users` → List all users (**Admin protected**)
+* `GET /users/:id` → Get user details
+* `PATCH /users/:id/role` → Update user role (**Admin protected**)
+* `DELETE /users/:id` → Soft delete user (**Admin protected**)
 
-# e2e tests
-$ npm run test:e2e
+### 📂 Document Management
 
-# test coverage
-$ npm run test:cov
-```
+* `POST /documents` → Create a new document (requires `title`, `filePath`)
+* `GET /documents` → List all documents
+* `GET /documents/:id` → Get document details
+* `PATCH /documents/:id` → Update document metadata
+* `DELETE /documents/:id` → Soft delete a document
 
-## Deployment
+### ⚙️ Ingestion APIs
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+* `POST /ingestion/trigger` → Trigger ingestion for a document
+* `GET /ingestion/status/:id` → Get ingestion process status
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+---
+
+## 📬 Postman Collection
+
+👉 [Postman API Workspace](https://www.postman.com/solar-meteor-326216/workspace/rag-assigment/collection/25991862-c5a7c04a-1253-4870-948d-a6fa692299b9?action=share&source=copy-link&creator=25991862)
+
+---
+
+## 🛠️ Setup Instructions
+
+### 1️⃣ Clone Repo & Install
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+git clone <repo-url>
+cd nest-backend
+npm install
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 2️⃣ Configure Environment
 
-## Resources
+Create `.env` file:
 
-Check out a few resources that may come in handy when working with NestJS:
+```env
+APP_PORT=9003
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_NAME=rag_assignment
+DATABASE_USER=postgres
+DATABASE_PASS=1234
+JWT_SECRET=your_jwt_secret
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### 3️⃣ Run Server
 
-## Support
+```bash
+npm run start:dev
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+App runs at: [http://localhost:9003](http://localhost:9003)
 
-## Stay in touch
+---
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## 🧪 Testing
 
-## License
+```bash
+# Unit Tests
+npm run test
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+# E2E Tests
+npm run test:e2e
+```
+
+---
+
+## 📜 License
+
+MIT License
+
+---
+
+Do you want me to **include example request/response payloads** for each API (like JSON body + sample response) inside the README so Postman is not required to understand the flow?
